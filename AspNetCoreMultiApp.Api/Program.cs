@@ -2,6 +2,7 @@ using AspNetCoreMultiApp.Api.Database;
 using AspNetCoreMultiApp.Api.Repositories;
 using AspNetCoreMultiApp.Api.Services;
 using Microsoft.EntityFrameworkCore;
+using Hangfire;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,8 +17,17 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.AddHangfire(configuration =>
+{
+    configuration.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+        .UseSimpleAssemblyNameTypeSerializer()
+        .UseRecommendedSerializerSettings()
+        .UseSqlServerStorage(connectionString);
+});
+
 var app = builder.Build();
 
 app.UseHttpsRedirection();
 app.MapControllers();
 app.Run();
+

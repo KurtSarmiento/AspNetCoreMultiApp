@@ -39,3 +39,10 @@ app.UseHangfireDashboard("/hangfire");
 app.MapControllers();
 app.Run();
 
+//CREATE MIGRATION FILE
+//USING POWERSHELL: dotnet ef migrations add InitialCreate
+//USING PACKAGE MANAGER CONSOLE: Add-Migration InitialCreate
+
+//RUN MIGRATION FILE
+//USING POWERSHELL: dotnet ef database update
+//USING PACKAGE MANAGER CONSOLE: Update-Database

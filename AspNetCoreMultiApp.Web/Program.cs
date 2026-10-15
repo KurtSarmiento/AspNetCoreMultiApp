@@ -1,7 +1,16 @@
+using AspNetCoreMultiApp.Web.Client;
+
 var builder = WebApplication.CreateBuilder(args);
+
+var apiBaseUrl = builder.Configuration["ApiSettings:BaseUrl"] ?? throw new InvalidOperationException("ApiSettings:BaseUrl is not found");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddHttpClient<IApiClient, ApiClient>(client =>
+{
+    client.BaseAddress = new Uri(apiBaseUrl);
+});
 
 var app = builder.Build();
 
